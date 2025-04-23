@@ -1,0 +1,141 @@
+/* ===== Reset and Base Styles ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    background: linear-gradient(to right, #4e8df5, #6ed6f7);
+    padding: 1.5rem 2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Navbar links container */
+.navbar ul {
+    display: flex;
+    list-style: none;  /* Removes bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.navbar li {
+    margin-left: 1rem;  /* Adds spacing between items */
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Main Container ===== */
+.main-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+/* ===== Headings ===== */
+h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+/* ===== Form Layout ===== */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.form-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Textbox & Image Upload ===== */
+textarea,
+.image-upload-box {
+    height: 220px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    background-color: #fefefe;
+    box-sizing: border-box;
+    position: relative;
+}
+
+textarea {
+    resize: none;
+}
+
+.image-upload-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.image-upload-box input[type="file"] {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+}
+
+.image-upload-box::before {
+    content: "Click to upload image";
+    color: #888;
+    font-size: 14px;
+    pointer-events: none;
+    position: absolute;
+}
+
+/* ===== Submit Button ===== */
+.full-width-btn {
+    width: 100%;
+    background: linear-gradient(to right, #4e8df5, #6ed6f7);
+    color: white;
+    font-size: 16px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 20px;
+}
+
+.full-width-btn:hover {
+    background: linear-gradient(to right, #3a76dd, #58cde8);
+}
