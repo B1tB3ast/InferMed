@@ -1,61 +1,59 @@
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
-from flask import Flask, render_template, request, send_from_directory
-from werkzeug.utils import secure_filename
-import webtool  # Assuming this is where your ML model is.
+from webtool import process_image_and_text # Import your model function
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # For flash messages
+# app.config['UPLOAD_FOLDER'] = 'uploads/'  # Folder to store uploaded files
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 
-# Folder to save the uploaded files
-UPLOAD_FOLDER = 'static/uploads'
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Allowed image extensions (e.g., .jpg, .png)
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+# Ensure the folder exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+# Helper function to check allowed file types
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-@app.route('/')
+# Route for the home page
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html')
+    if request.method == 'POST':
+        # Match the 'name' attribute in your HTML input field
+        image = request.files.get('xray_image')
+        notes_text = request.form.get('notes_text')
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    # Check if the form is submitted and contains a file
-    if 'image' not in request.files:
-        return 'No file part', 400
-    file = request.files['image']
-    
-    # If the user did not select a file, the browser may submit an empty file
-    if file.filename == '':
-        return 'No selected file', 400
+        if image and allowed_file(image.filename):
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
+            image.save(image_path)
 
-    if file and allowed_file(file.filename):
-        # Save the file securely in the static/uploads folder
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
+            # image.save(os.path.join('static', 'uploads', image_filename))
 
-        # Get the text input from the form
-        text = request.form['text']
+            # Process image + notes
+            phenotypes = process_model(image_path, notes_text)
 
-        # Save the text to report.txt
-        text_file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'report.txt')
-        with open(text_file_path, 'w') as f:
-            f.write(text)
-        
-        # Pass image and text file path to your model (assumed to be in model.py)
-        phenotypes = webtool.process_image_and_text(file_path, text_file_path)
+            # Send results to the results page
+            return render_template('results.html', phenotypes=phenotypes, xrays=[{'id': 1, 'filename': image.filename}])
 
-        # Send the processed results back to the template for display
-        return render_template('result.html', image_filename=filename, phenotypes=phenotypes)
+        else:
+            flash('Invalid or missing image file.', 'danger')
 
-    return 'Invalid file type', 400
+    return render_template('home.html')
 
-# If needed to serve the file manually (for any reason):
-@app.route('/static/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+# Route for displaying results after analysis
+@app.route('/results')
+def results():
+    return render_template('results.html')
+
+
+# Placeholder for your model processing function
+def process_model(image_path, notes_text):
+    # Process the image and notes_text with your model here
+    # For now, just returning a dummy list of phenotypes
+    return process_image_and_text(image_path, notes_text)
 
 if __name__ == '__main__':
     app.run(debug=True)
