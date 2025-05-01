@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}ChexPred - Upload X-ray and Patient Notes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto text-center">
+            <h1 class="display-4 mb-4">Predict Phenotypes from X-ray Images</h1>
+            <p class="lead">
+                CheXpred.ai uses Semi-supervised Machine Learning approach to analyze chest X-ray images and corresponding radiology report to predict potential phenotypes with high accuracy. Our AI-powered technology helps medical professionals make faster, more informed diagnoses.
+            </p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5">
+        <div class="col-12 text-center mb-4">
+            <h2>How CheXpred.ai Works</h2>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-upload fa-3x text-primary mb-3"></i>
+                    <h3 class="h5">Upload X-ray and Text</h3>
+                    <p class="text-muted">Upload your chest X-ray image in JPEG or PNG format with patient report.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-cogs fa-3x text-primary mb-3"></i>
+                    <h3 class="h5">AI Analysis</h3>
+                    <p class="text-muted">Our AI model analyzes image and text to detect disease</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+                    <h3 class="h5">Get Results</h3>
+                    <p class="text-muted">Receive detailed phenotype predictions in seconds.</p>
+                </div>
+            </div>
+        </div>
+
+    <h2 class="mb-4">Upload X-ray Image and Enter Patient Notes</h2>
+
+    <form id="upload-form" action="{{ url_for('home') }}" method="post" enctype="multipart/form-data">
+        <!-- X-ray Image Upload -->
+        <div class="mb-4">
+            <label for="xray-file-input" class="form-label">Upload X-ray Image (JPEG or PNG)</label>
+            <input type="file" id="xray-file-input" name="xray_image" accept=".jpg,.jpeg,.png" class="form-control" required>
+        </div>
+
+        <!-- Preview Image -->
+        <div class="mb-4">
+            <label class="form-label">Image Preview:</label><br>
+            <img id="preview-img" src="#" alt="Image Preview" class="img-thumbnail" style="max-height: 200px; display: none;">
+        </div>
+
+        <!-- Patient Notes -->
+        <div class="mb-4">
+            <label for="notes-textbox" class="form-label">Enter Patient Notes</label>
+            <textarea class="form-control" id="notes-textbox" name="notes_text" rows="4" placeholder="Enter patient's medical notes here..." required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-microscope me-2"></i>Analyze X-ray
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Preview Script -->
+<script>
+    const input = document.getElementById('xray-file-input');
+    const preview = document.getElementById('preview-img');
+
+    input.onchange = evt => {
+        const [file] = input.files;
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        }
+    };
+</script>
+{% endblock %}

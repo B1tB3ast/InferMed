@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}ChexPred - X-ray Analysis Results{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4 text-center">X-ray Analysis Results</h1>
+
+    {% if xrays %}
+        {% set xray = xrays[0] %}  <!-- Take the first xray from the list -->
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <!-- <div class="card-header">
+                        <strong>X-ray ID: {{ xray.id }}</strong>
+                    </div> -->
+                    <div class="card-body">
+                        <img src="{{ url_for('static', filename='uploads/' ~ xray.filename) }}" class="img-fluid mb-3" alt="X-ray Image">
+                        <h6>Phenotypes:</h6>
+                        {% if phenotypes %}
+                            <ul class="list-group list-group-flush">
+                                {% for phenotype in phenotypes %}
+                                    <li class="list-group-item">{{ phenotype }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No predictions available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <h4>No X-ray results yet</h4>
+            <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Upload X-ray</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
