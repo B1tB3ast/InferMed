@@ -1,0 +1,85 @@
+ /* Custom styles for ChexPred */
+
+/* Ensuring body has proper spacing */
+body {
+    padding-top: 60px; /* Account for fixed navbar */
+}
+
+/* Custom styling for the file upload area */
+.upload-area {
+    border: 2px dashed var(--bs-secondary);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    transition: border-color 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--bs-primary);
+}
+
+/* Styling for the image preview */
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    margin: 1rem auto;
+    display: none;
+}
+
+/* Prediction results styling */
+.prediction-card {
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.prediction-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Custom progress bar for prediction confidence */
+.confidence-bar {
+    height: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: none;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+/* Custom styling for the patient notes textarea */
+.notes-area {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Footer styling */
+footer {
+    margin-top: 3rem;
+    padding: 2rem 0;
+    background-color: var(--bs-light);
+}
+
+/* About page content styling */
+.about-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+} 
